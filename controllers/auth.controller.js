@@ -77,7 +77,7 @@ const signIn = async (req, res) => {
         // generate token
         const payload = {
           username: user.username,
-          hashedPassword: username.hashedPassword,
+          role: user.role,
         };
         const token = jwt.sign(payload, process.env.PRIVATE_KEY, {
           expiresIn: "2h",
@@ -86,6 +86,7 @@ const signIn = async (req, res) => {
         // save token to session
         req.session.User = {
           token: token,
+          role: user.role,
         };
 
         // send token
@@ -104,13 +105,13 @@ const validate = async (data, schema) => {
 };
 
 const updateUserInfo = async (userId, data) => {
-  await db.collection("users").doc(userId).update(data);
+  await db.collection("users").doc(userId.trim()).update(data);
 };
 
 const updateInfo = async (req, res) => {
   const { userId } = req.params;
   // get user
-  const user = await db.collection("users").doc(userId).get();
+  const user = await db.collection("users").doc(userId.trim()).get();
   if (!user.exists) {
     return res.status(400).send({
       message: "Something wrong",
