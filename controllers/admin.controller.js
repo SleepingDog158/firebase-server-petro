@@ -1,5 +1,5 @@
 const { db } = require("../connectDatabase");
-const { CLIENT_ROLE, STATION_ROLE } = require("../constants/user.constant");
+const { CLIENT_ROLE } = require("../constants/user.constant");
 
 const index = (req, res) => {
   res.send(req.session.User.role);
