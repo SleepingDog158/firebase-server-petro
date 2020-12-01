@@ -14,6 +14,8 @@ const {
   STATION_PREFIX,
 } = require("../constants/user.constant");
 
+const { validate } = require("../common/validateSchema");
+
 const StationSchema = require("../models/Station.model");
 const ClientSchema = require("../models/Client.model");
 const DriverSchema = require("../models/Driver.model");
@@ -97,11 +99,6 @@ const signIn = async (req, res) => {
     }
   }
   return res.status(400).end("User has not exist");
-};
-
-const validate = async (data, schema) => {
-  const { error } = await schema.validate(data);
-  return error;
 };
 
 const updateUserInfo = async (userId, data) => {
