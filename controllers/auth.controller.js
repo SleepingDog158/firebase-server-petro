@@ -89,16 +89,22 @@ const signIn = async (req, res) => {
         req.session.User = {
           token: token,
           role: user.role,
+          typeId: user.typeId,
         };
 
         // send token
-        return res.status(200).end(token);
+        return res.status(200).json({
+          token: token,
+          role: user.role,
+        });
       } else {
-        return res.status(400).end("Username or password invalid!");
+        return res
+          .status(400)
+          .json({ message: "Username or password invalid!" });
       }
     }
   }
-  return res.status(400).end("User has not exist");
+  return res.status(400).json({ message: "User has not exist" });
 };
 
 const updateUserInfo = async (userId, data) => {

@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { ACTIVE, INACTIVE } = require("../constants/contract.constanst");
 
 const DriverSchema = Joi.object({
   fullName: Joi.string().required(),
@@ -8,6 +9,8 @@ const DriverSchema = Joi.object({
   remain: Joi.number().integer().positive(),
   maxPerTransaction: Joi.number().integer().positive(),
   Plate: Joi.string(),
+  clientId: Joi.string().required(),
+  status: Joi.string().valid(ACTIVE, INACTIVE).required(),
 });
 
 module.exports = DriverSchema;

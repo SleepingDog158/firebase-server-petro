@@ -24,6 +24,7 @@ app.use(
 const UserRoute = require("./routes/auth.route");
 const AdminRoute = require("./routes/admin.route");
 const ClientRoute = require("./routes/client.route");
+const StationRoute = require("./routes/station.route");
 
 // middlewares
 
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 app.use("/auth", UserRoute);
 app.use("/admin", authMiddleware.requireAuth, AdminRoute);
 app.use("/client", authMiddleware.requireAuth, ClientRoute);
+app.use("/station", authMiddleware.requireAuth, StationRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

@@ -5,5 +5,6 @@ Router.get("/", Controller.index);
 Router.get("/getClients", Controller.getClients);
 Router.get("/getProducts", Controller.getProducts);
 Router.post("/createContract", Controller.createContract);
+Router.get("/getDrivers", Controller.getDrivers);
 
 module.exports = Router;
