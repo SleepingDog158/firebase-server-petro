@@ -1,5 +1,5 @@
 const { db, firebase } = require("../connectDatabase");
-const { CLIENT_ROLE } = require("../constants/user.constant");
+const { CLIENT_ROLE, DRIVER_ROLE } = require("../constants/user.constant");
 const ContractSchema = require("../models/Contract.model");
 const { validate } = require("../common/validateSchema");
 const { INACTIVE } = require("../constants/contract.constanst");
@@ -22,6 +22,22 @@ const getClients = async (req, res) => {
   res.status(200).json({ clients });
 };
 
+// client get drivers
+const getDrivers = async (req, res) => {
+  const query = await db
+    .collection("users")
+    .where("role", "==", DRIVER_ROLE)
+    .where("clientId", "==", req.query.clientId)
+    .get();
+  let drivers = [];
+  query.forEach((driver) => {
+    if (driver.exists) {
+      drivers = [...drivers, driver.data()];
+    }
+  });
+  res.status(200).json({ drivers });
+};
+
 const getProducts = async (req, res) => {
   const query = await db.collection("products").get();
   let products = [];
@@ -37,6 +53,7 @@ const createContract = async (req, res) => {
   let params = {
     ...req.body,
     createdDate: new Date(Date.now()),
+    credit: parseInt(req.body.credit),
     status: INACTIVE,
   };
   const error = await validate(params, ContractSchema);
@@ -70,4 +87,5 @@ module.exports = {
   getClients,
   getProducts,
   createContract,
+  getDrivers
 };
